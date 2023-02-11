@@ -9,9 +9,11 @@
 // 상수로 만들기 = 변하지 않으니깐^^
 // 근데 여기서(reducer)안에서만 쓰는게 아니고 app컴포넌트에서도 써야하니깐
 // export 해주기 !!!!!!!
-export const PLUS_ONE = 'counter/PLUS_ONE';
-export const MINUS_ONE = 'counter/MINUS_ONE';
-
+// but, 이제는 action creator를 사용하기 때문에 export 해줄필요 없음
+const PLUS_ONE = 'counter/PLUS_ONE';
+const MINUS_ONE = 'counter/MINUS_ONE';
+const PLUS_N = 'counter/PLUS_N';
+const MINUS_N = 'counter/MINUS_N';
 /*
     action 객체도 안에 내용들이 많아지기 때문에
     휴먼에러 가능성 높다!!
@@ -30,6 +32,19 @@ export const minusOne = () => {
         type: MINUS_ONE,
     };
 };
+// payload 인자값으로 받기
+export const plusN = (payload) => {
+    return {
+        type: PLUS_N,
+        payload: payload,
+    };
+};
+export const minusN = (payload) => {
+    return {
+        type: MINUS_N,
+        payload,
+    };
+};
 
 // 초기상태값(state) 필요
 const initialState = {
@@ -42,6 +57,8 @@ const initialState = {
 // 1) state를 action의 type에 따라 변경하는 함수
 
 // input값 : state, action 2가지로 받는다
+// action 객체라는 것은 action type을 payload만큼 처리하는 것이다!!
+// ex : payload가 3이다. 3만큼 plus ~~
 const counter = (state = initialState, action) => {
     // action : type, value 가 있다(객체)
     //        : state를 어떻게 할건지~~
@@ -58,6 +75,14 @@ const counter = (state = initialState, action) => {
         case MINUS_ONE:
             return {
                 number: state.number - 1,
+            };
+        case PLUS_N:
+            return {
+                number: state.number + action.payload,
+            };
+        case MINUS_N:
+            return {
+                number: state.number - action.payload,
             };
         default:
             return state;
